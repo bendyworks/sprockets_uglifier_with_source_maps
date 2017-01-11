@@ -1,5 +1,6 @@
 require 'sprockets/digest_utils'
 require 'sprockets/uglifier_compressor'
+require 'uglifier'
 
 module SprocketsUglifierWithSM
   class Compressor < Sprockets::UglifierCompressor
@@ -17,7 +18,7 @@ module SprocketsUglifierWithSM
       data = input.fetch(:data)
       name = input.fetch(:name)
 
-      compressed_data, sourcemap = @uglifier.compile_with_map(data)
+      compressed_data, sourcemap = Uglifier.compile_with_map(data)
 
       uncompressed_filename = File.join(Rails.application.config.assets.prefix, Rails.application.config.assets.uncompressed_prefix, "#{name}-#{digest(data)}.js")
       uncompressed_url      = filename_to_url uncompressed_filename
